@@ -14,7 +14,7 @@ A shared library providing with greedy training algorithms for SNNs.
 
 ### Tested
 
-void LoadMNIST();
+- `void LoadMNIST()`;
 
 ### Developed
 
