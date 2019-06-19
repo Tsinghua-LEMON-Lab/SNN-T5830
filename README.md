@@ -2,19 +2,20 @@
 
 A shared library providing with greedy training algorithms for SNNs.
 
-## Compiler Config
+## Compile Options
 
-- Standard: C90
+- C90 standard
+- Shared library
 
 ## Target Platform
 
-- AdvanTest T5830 platform (Unix)
+- AdvanTest T5830 platform (linux)
 
 ## APIs
 
 ### Tested
 
-- `void LoadMNIST()`;
+- `void LoadMNIST()`
 
 ### Developed
 
@@ -23,3 +24,5 @@ A shared library providing with greedy training algorithms for SNNs.
 ## Change Log
 
 - v0.0.1
+    - Build program skeleton.
+    - New feature: `void LoadMNIST()`, loading MNIST image data into arrays from hard-coded data file path.
