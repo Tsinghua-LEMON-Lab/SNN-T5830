@@ -22,9 +22,11 @@ A shared library providing with greedy training algorithms for SNNs.
 ### TODOs
 
 - `void InitNetwork()`
-- `void RunNetwork()`
+    - Initialize the SNN, prepare input/output neurons and internal states.
 - `void NextSpike()`
-- `void Feedback()`
+    - Get the next spike of input neurons, for SL ports of the array.
+- `void Feedback(void* current)`
+    - Feed current read from array back to the SNN software.
 
 ## Change Log
 
