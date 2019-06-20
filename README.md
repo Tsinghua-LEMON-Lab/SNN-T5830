@@ -21,6 +21,11 @@ A shared library providing with greedy training algorithms for SNNs.
 
 ### TODOs
 
+- `void InitNetwork()`
+- `void RunNetwork()`
+- `void NextSpike()`
+- `void Feedback()`
+
 ## Change Log
 
 - v0.0.1
