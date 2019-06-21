@@ -4,6 +4,7 @@
 
 #include "test.h"
 #include "DataLoader.h"
+#include "Network.h"
 
 #include <stdio.h>
 
@@ -25,8 +26,24 @@ int test_LoadMNIST() {
 }
 
 
+int test_InitNetwork() {
+    InitNetwork();
+
+    printf("Output spikes: ");
+
+    int i;
+    for (i = 0; i < OUTPUT_SIZE; ++i) {
+        printf("%ld ", OutputSpikes[i]);
+    }
+
+    printf("\n");
+
+    return 1;
+}
+
+
 int main() {
-    test_LoadMNIST();
+    test_InitNetwork();
 
     return 0;
 }
