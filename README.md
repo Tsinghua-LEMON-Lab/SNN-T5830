@@ -15,9 +15,9 @@ A shared library providing with greedy training algorithms for SNNs.
 
 ### Tested
 
-- []`void LoadMNIST()`
+- [ ] `void LoadMNIST()`
     - Load MNIST image data into arrays from hard-coded data file path.
-- []`void InitNetwork()`
+- [ ] `void InitNetwork()`
     - Initialize the SNN, prepare input/output neurons and internal states.
 
 ### Developed
