@@ -12,6 +12,8 @@
 long InputSpikes[INPUT_SIZE];
 long OutputSpikes[OUTPUT_SIZE];
 double Weights[INPUT_SIZE][OUTPUT_SIZE];
+char ResultDir[500];
+
 
 static int NetworkTime;
 static int NetworkPhase;        // TRAIN / TEST
@@ -49,6 +51,11 @@ static int TestSetFiredTimings[TEST_SIZE];
 extern void StartTrain() {
     // load train data
     LoadMNIST();
+
+    strcpy(ResultDir, RESULTS_LOC);
+    strcat(ResultDir, Now());    // without trailing '/'
+    strcat(ResultDir, "/");
+    mkdir(ResultDir, 0777);
 
     // network config
     NetworkTime = 0;
@@ -238,15 +245,14 @@ extern void GetTestFeedbackInstruction(int* currents, void* end_of_test) {
 }
 
 extern void Save() {
-    char base[200] = RESULTS_LOC;
-    strcat(base, Now());    // without trailing '/'
-    mkdir(base, 0777);
+    char base[500];
+    strcpy(base, ResultDir);
 
     if (NetworkPhase == TRAIN) {
-        strcat(base, "/train/");
+        strcat(base, "train/");
         mkdir(base, 0777);
     } else {
-        strcat(base, "/test/");
+        strcat(base, "test/");
         mkdir(base, 0777);
     }
 
@@ -256,7 +262,7 @@ extern void Save() {
     SaveLabels(base);
 
     if (NetworkPhase == TEST) {
-        SaveResponses(base);
+        SaveResponses(ResultDir);
     }
 }
 
@@ -331,6 +337,9 @@ extern void SaveConfig(const char* path) {
         fprintf(stderr, "Error saving config.txt\n");
         return;
     }
+
+    fprintf(fp, "Path: %s\n", ResultDir);
+    fprintf(fp, "\n");
 
     fprintf(fp, "SET: %d %d %d %dns\n", V_SET_BL, V_SET_SL, V_SET_WL, SET_WIDTH);
     fprintf(fp, "RESET: %d %d %d %dns\n", V_RESET_BL, V_RESET_SL, V_RESET_WL, RESET_WIDTH);

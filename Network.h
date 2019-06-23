@@ -44,6 +44,7 @@ enum {TRAIN, TEST};
 extern long InputSpikes[INPUT_SIZE];
 extern long OutputSpikes[OUTPUT_SIZE];
 extern double Weights[INPUT_SIZE][OUTPUT_SIZE];
+extern char ResultDir[500];
 
 
 extern void StartTrain();
@@ -53,6 +54,8 @@ extern void GetTrainFeedbackInstruction(int* currents);
 extern void StartTest();
 extern void GetTestInstruction();
 extern void GetTestFeedbackInstruction(int* currents, void* end_of_test);
+
+extern void EvaluateScore();
 
 // Save/load model
 extern void Save();

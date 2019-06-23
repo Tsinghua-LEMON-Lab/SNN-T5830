@@ -70,7 +70,7 @@ int test_test() {
 }
 
 int main() {
-    test_test();
+    test_train();
 
     return 0;
 }
