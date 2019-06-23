@@ -25,9 +25,9 @@ static double CurrentImageComplementaryNorm;
 
 static double LIFMembranes[OUTPUT_SIZE];
 static double LIFThresholds[OUTPUT_SIZE];
-static double LIFRes = 50.0 / 30.0 * 1.0 / 0.15 * 1.0 / 1000.0;
+static double LIFRes = 5.0 / 30.0 * 1.0 / 0.15 * 1.0 / 1000.0;
 static int LIFFiredIndex;
-// (50uS/max_g) * (1.0V/0.15V) * (1nA/1uA);
+// (5.0/max_g) * (1.0V/0.15V) * (1n/1u);
 // max conductance ratio * read voltage ratio * current unit conversion
 
 // tracker (using ring buffers)
