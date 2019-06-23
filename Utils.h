@@ -6,9 +6,11 @@
 #define SNN_T5830_UTILS_H
 
 
-void InitLongArray(long* array, int size, long value);
-void InitIntArray(int* array, int size, int value);
-void InitDoubleArray(double* array, int size, double value);
+extern void InitLongArray(long* array, int size, long value);
+extern void InitIntArray(int* array, int size, int value);
+extern void InitDoubleArray(double* array, int size, double value);
+extern double GetImageNorm(const double *image, int size);
+extern double RandDouble();
 
 
 #endif //SNN_T5830_UTILS_H

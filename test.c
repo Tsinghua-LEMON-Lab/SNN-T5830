@@ -5,6 +5,7 @@
 #include "test.h"
 #include "DataLoader.h"
 #include "Network.h"
+#include "Utils.h"
 
 #include <stdio.h>
 
@@ -26,24 +27,27 @@ int test_LoadMNIST() {
 }
 
 
-int test_InitNetwork() {
-    InitNetwork();
+int test_train() {
+    StartTrain();
+    int currents[8];
 
-    printf("Output spikes: ");
+    int i, j;
 
-    int i;
-    for (i = 0; i < OUTPUT_SIZE; ++i) {
-        printf("%ld ", OutputSpikes[i]);
+    for (i = 0; i < 10000; ++i) {
+        GetTrainInstruction();
+
+        for (j = 0; j < 8; ++j) {
+            currents[j] = (int)(RandDouble() * 4000);
+        }
+        GetTrainFeedbackInstruction(currents);
     }
-
-    printf("\n");
 
     return 1;
 }
 
 
 int main() {
-    test_InitNetwork();
+    test_train();
 
     return 0;
 }

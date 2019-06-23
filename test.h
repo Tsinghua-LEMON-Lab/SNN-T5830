@@ -6,6 +6,6 @@
 #define SNN_T5830_TEST_H
 
 int test_LoadMNIST();
-int test_InitNetwork();
+int test_train();
 
 #endif //SNN_T5830_TEST_H
