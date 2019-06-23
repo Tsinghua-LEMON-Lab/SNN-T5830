@@ -7,5 +7,6 @@
 
 int test_LoadMNIST();
 int test_train();
+int test_test();
 
 #endif //SNN_T5830_TEST_H

@@ -26,28 +26,51 @@ int test_LoadMNIST() {
     return 1;
 }
 
-
 int test_train() {
+    int end_of_train = 0;
+
     StartTrain();
-    int currents[8];
+    int currents[OUTPUT_SIZE];
 
-    int i, j;
+    int i;
+    while (!end_of_train) {
+        GetTrainInstruction(&end_of_train);
 
-    for (i = 0; i < 10000; ++i) {
-        GetTrainInstruction();
-
-        for (j = 0; j < 8; ++j) {
-            currents[j] = (int)(RandDouble() * 4000);
+        for (i = 0; i < OUTPUT_SIZE; ++i) {
+            currents[i] = (int)(RandDouble() * 4000);
         }
         GetTrainFeedbackInstruction(currents);
     }
 
+    Save();
+
     return 1;
 }
 
+int test_test() {
+    int end_of_test = 0;
+
+    StartTest();
+    int currents[OUTPUT_SIZE];
+
+    int i;
+    while (!end_of_test) {
+        GetTestInstruction();
+
+        for (i = 0; i < OUTPUT_SIZE; ++i) {
+            currents[i] = (int)(RandDouble() * 4000);
+        }
+        GetTestFeedbackInstruction(currents, &end_of_test);
+    }
+
+    printf("%s", Now());
+    Save();
+
+    return 1;
+}
 
 int main() {
-    test_train();
+    test_test();
 
     return 0;
 }

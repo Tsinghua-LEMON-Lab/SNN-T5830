@@ -11,6 +11,8 @@ extern void InitIntArray(int* array, int size, int value);
 extern void InitDoubleArray(double* array, int size, double value);
 extern double GetImageNorm(const double *image, int size);
 extern double RandDouble();
+extern char* Now();
+extern const char* GetFilename(const char* base, const char* filename);
 
 
 #endif //SNN_T5830_UTILS_H

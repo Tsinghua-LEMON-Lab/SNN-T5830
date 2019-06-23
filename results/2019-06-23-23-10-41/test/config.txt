@@ -1,0 +1,12 @@
+Pattern time: 200
+Background time: 3
+Pattern rate: 1.000000
+Background rate: 7.000000
+Tracker size: 1000
+LIF resting threshold: 0.400000
+LIF tau: 200
+LIF adapt factor: 1.100000
+LIF res factor: 0.001111
+Network phase: TEST
+Network timestep used: 32032
+Samples learned: 3148
