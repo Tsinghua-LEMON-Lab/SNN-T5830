@@ -7,7 +7,22 @@
 
 #include "DataLoader.h"
 
+// results folder
 #define RESULTS_LOC "/Users/Nuullll/Projects/SNN-T5830/results/"
+
+// pulse config (voltage unit: mV, pulse width unit: ns)
+#define V_SET_BL 2000
+#define V_SET_SL 0
+#define V_SET_WL 2000
+#define SET_WIDTH 50
+#define V_RESET_BL 0
+#define V_RESET_SL 2000
+#define V_RESET_WL 3500
+#define RESET_WIDTH 50
+#define V_READ_BL 0
+#define V_READ_SL 150
+#define V_READ_WL 4500
+#define READ_WIDTH 500
 
 // Pattern/background phase
 #define PATTERN_TIME 200

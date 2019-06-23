@@ -332,6 +332,11 @@ extern void SaveConfig(const char* path) {
         return;
     }
 
+    fprintf(fp, "SET: %d %d %d %dns\n", V_SET_BL, V_SET_SL, V_SET_WL, SET_WIDTH);
+    fprintf(fp, "RESET: %d %d %d %dns\n", V_RESET_BL, V_RESET_SL, V_RESET_WL, RESET_WIDTH);
+    fprintf(fp, "READ: %d %d %d %dns\n", V_READ_BL, V_READ_SL, V_READ_WL, READ_WIDTH);
+    fprintf(fp, "\n");
+
     fprintf(fp, "Pattern time: %d\n", PATTERN_TIME);
     fprintf(fp, "Background time: %d\n", BACKGROUND_TIME);
     fprintf(fp, "Pattern rate: %f\n", PATTERN_RATE);
@@ -341,6 +346,7 @@ extern void SaveConfig(const char* path) {
     fprintf(fp, "LIF tau: %d\n", LIF_TAU);
     fprintf(fp, "LIF adapt factor: %f\n", LIF_ADAPT_FACTOR);
     fprintf(fp, "LIF res factor: %f\n", LIFRes);
+    fprintf(fp, "\n");
 
     fprintf(fp, "Network phase: %s\n", NetworkPhase ? "TEST" : "TRAIN");
     fprintf(fp, "Network timestep used: %d\n", NetworkTime);
