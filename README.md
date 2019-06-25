@@ -85,6 +85,38 @@ A shared library providing with greedy training algorithms for SNNs.
 - [ ] `void EvaluateScore()`
     - @desc 推理结束后调用, 计算准确率并保存至文件.
 
+## Workflow
+
+1. 标准FORMING, 未提供接口: 300nA - 4000nA
+
+2. 获取脉冲参数配置: `LoadSetPulseConfig()`; `LoadResetPulseConfig()`; `LoadReadPulseConfig()`
+
+3. 开始训练: `StartTrain()`
+
+4. `while True:`
+
+    1. `GetTrainInstruction()`
+    1. 硬件操作阵列
+    2. `if end_of_train: break`
+    3. `GetTrainFeedbackInstruction()`
+    1. 硬件操作阵列
+
+5. 保存阵列状态: `SaveArray()`; 保存网络模型: `Save()`
+
+6. 开始推理: `StartTest()`
+
+7. `while True:`
+
+    1. `GetTestInstruction()`
+    1. 硬件操作阵列
+    2. `GetTestFeedbackInstruction()`
+    1. 硬件操作阵列
+    3. `if end_of_test: break`
+
+8. 保存阵列状态: `SaveArray()`; 保存网络模型: `Save()`
+
+9. 计算准确率: `EvaluateScore()`
+
 ## Change Log
 
 - v0.2.0
