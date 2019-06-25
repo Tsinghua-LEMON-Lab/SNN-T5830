@@ -17,6 +17,13 @@ A shared library providing with greedy training algorithms for SNNs.
 - [在测试平台编译C shared library for ATL](ATLxC-guidance/atl_en_clink_1.5.html)
 - [样例程序](ATLxC-guidance/atl_en_clink_1.6.html)
 
+## Plaform-dependent MACROs
+
+1. `#define TEST_ON_T5830 1` ([ATLio.h @line 8](ATLio.h))
+2. `#define TRAIN_DATA_LOC "path/to/train/data.txt"` ([DataLoader.h @line 9](DataLoader.h))
+3. `#define TEST_DATA_LOC "path/to/test/data.txt"` ([DataLoader.h @line 10](DataLoader.h))
+4. `#define RESULTS_LOC "path/to/results/dir/` 需以`'/'`结尾 ([Network.h @line 11](Network.h))
+
 ## APIs
 
 - [ ] `void GetSetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width)`
