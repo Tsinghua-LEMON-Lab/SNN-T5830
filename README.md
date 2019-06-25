@@ -42,10 +42,10 @@ A shared library providing with greedy training algorithms for SNNs.
     - @param `end_of_train` <@ATL_type `INTEGER[1]`>: 训练结束则`end_of_train=1`, 否则为`0`.
     - @param `operation_type` <@ATL_type `INTEGER[1]`>: 操作类型.
         - `SET = 0`: 此函数不会返回`SET`操作.
-        - `RESET = 1`: 选中**若干行`SL`**以及**一行`BL`**进行`RESET`操作. 
+        - `RESET = 1`: 选中**若干行SL**以及**一行BL**进行`RESET`操作. 
             - 选中的`SL`信息返回至`sl_enable[128]`数组, 选中的置为`1`, 未选中的置为`0`.
             - 选中的`BL`返回至`bl_enable`整数型变量, 范围0~7.
-        - `READ = 2`: 选中选中**若干行`SL`**进行`READ`操作 (`SL`加0.15V读电压, 从`BL`端口读电流), `BL`全部打开, 得到8个`BL`的累加电流 (nA), 暂存.
+        - `READ = 2`: 选中选中**若干行SL**进行`READ`操作 (`SL`加0.15V读电压, 从`BL`端口读电流), `BL`全部打开, 得到8个`BL`的累加电流 (nA), 暂存.
             - 选中的`SL`信息返回至`sl_enable[128]`数组, 选中的置为`1`, 未选中的置为`0`.
             - `BL`硬编码为全部打开, `bl_enable`不返回有意义的值.
         - `EMPTY = 3`: 空操作, 当且仅当训练结束时会返回空操作.
@@ -56,7 +56,7 @@ A shared library providing with greedy training algorithms for SNNs.
     - @desc 将前向指令`READ`操作读取到的各`BL`电流反馈给网络, 并获取反向操作指令, 操作类型可能为`SET`或`EMPTY`.
     - @param `bl_currents` <@ATL_type `INTEGER[1] (8)`>: 长度为8的数组, 将前向`READ`操作读取到的电流值存储在此变量, 供网络模型读取. 如果前向操作指令为`RESET`, 则不关心此变量的具体值.
     - @param `operation_type` <@ATL_type `INTEGER[1]`>: 操作类型.
-        - `SET = 0`: 选中**若干行`SL`**以及**一行`BL`**进行`SET`操作. 
+        - `SET = 0`: 选中**若干行SL**以及**一行BL**进行`SET`操作. 
             - 选中的`SL`信息返回至`sl_enable[128]`数组, 选中的置为`1`, 未选中的置为`0`.
             - 选中的`BL`返回至`bl_enable`整数型变量, 范围0~7.
         - `RESET = 1`: 此函数不会返回`RESET`操作.
