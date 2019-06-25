@@ -39,6 +39,7 @@
 
 enum {PATTERN, BACKGROUND};
 enum {TRAIN, TEST};
+enum {SET, RESET, READ, EMPTY};        // operation type: SET 0, RESET 1, READ 2, EMPTY 3
 
 
 extern long InputSpikes[INPUT_SIZE];
@@ -47,17 +48,22 @@ extern double Weights[INPUT_SIZE][OUTPUT_SIZE];
 extern char ResultDir[500];
 
 
+extern void GetSetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width);
+extern void GetResetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width);
+extern void GetReadPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width);
+
 extern void StartTrain();
-extern void GetTrainInstruction(void* end_of_train);
-extern void GetTrainFeedbackInstruction(int* currents);
+extern void GetTrainInstruction(void* end_of_train, void* operation_type, void* bl_enable, void* sl_enable);
+extern void GetTrainFeedbackInstruction(void* bl_currents, void* operation_type, void* bl_enable, void* sl_enable);
 
 extern void StartTest();
-extern void GetTestInstruction();
-extern void GetTestFeedbackInstruction(int* currents, void* end_of_test);
+extern void GetTestInstruction(void* operation_type, void* sl_enable);
+extern void GetTestFeedbackInstruction(void* bl_currents, void* end_of_test);
 
 extern void EvaluateScore();
 
 // Save/load model
+extern void SaveArray(void* bl0_currents, void* bl1_currents, void* bl2_currents, void* bl3_currents, void* bl4_currents, void* bl5_currents, void* bl6_currents, void* bl7_currents);
 extern void Save();
 extern void SaveThresholds(const char* path);
 extern void LoadThresholds(const char* path);
@@ -66,6 +72,7 @@ extern void LoadWeights(const char* path);
 extern void SaveConfig(const char* path);
 extern void SaveLabels(const char* path);
 extern void SaveResponses(const char* path);
+extern void SaveScores(const char* path);
 
 // private functions
 static int FetchTrainImage(int index);

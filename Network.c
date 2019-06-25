@@ -5,6 +5,8 @@
 #include "Network.h"
 #include "Utils.h"
 
+#include "ATLio.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -47,6 +49,94 @@ static int TrainSetFiredTimings[TRAIN_SIZE];
 static int TestSetFiredNeurons[TEST_SIZE];
 static int TestSetFiredTimings[TEST_SIZE];
 
+static double NeuronScores[OUTPUT_SIZE][CATEGORIES];
+static int NeuronLabels[OUTPUT_SIZE];
+static int TrainLabelsPredict[TRAIN_SIZE];
+static int TestLabelsPredict[TEST_SIZE];
+static int TrainHit;
+static int TestHit;
+
+
+extern void GetSetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width) {
+    long bl = V_SET_BL;
+    long sl = V_SET_SL;
+    long wl = V_SET_WL;
+    long width = SET_WIDTH;
+
+    if (!WriteLong(v_bl, bl)) {
+        fprintf(stderr, "Error: GetSetPulseConfig() @param v_bl\n");
+        return;
+    }
+
+    if (!WriteLong(v_sl, sl)) {
+        fprintf(stderr, "Error: GetSetPulseConfig() @param v_sl\n");
+        return;
+    }
+
+    if (!WriteLong(v_wl, wl)) {
+        fprintf(stderr, "Error: GetSetPulseConfig() @param v_wl\n");
+        return;
+    }
+
+    if (!WriteLong(pulse_width, width)) {
+        fprintf(stderr, "Error: GetSetPulseConfig() @param pulse_width\n");
+        return;
+    }
+}
+
+extern void GetResetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width) {
+    long bl = V_RESET_BL;
+    long sl = V_RESET_SL;
+    long wl = V_RESET_WL;
+    long width = RESET_WIDTH;
+
+    if (!WriteLong(v_bl, bl)) {
+        fprintf(stderr, "Error: GetResetPulseConfig() @param v_bl\n");
+        return;
+    }
+
+    if (!WriteLong(v_sl, sl)) {
+        fprintf(stderr, "Error: GetResetPulseConfig() @param v_sl\n");
+        return;
+    }
+
+    if (!WriteLong(v_wl, wl)) {
+        fprintf(stderr, "Error: GetResetPulseConfig() @param v_wl\n");
+        return;
+    }
+
+    if (!WriteLong(pulse_width, width)) {
+        fprintf(stderr, "Error: GetResetPulseConfig() @param pulse_width\n");
+        return;
+    }
+}
+
+extern void GetReadPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width) {
+    long bl = V_READ_BL;
+    long sl = V_READ_SL;
+    long wl = V_READ_WL;
+    long width = READ_WIDTH;
+
+    if (!WriteLong(v_bl, bl)) {
+        fprintf(stderr, "Error: GetReadPulseConfig() @param v_bl\n");
+        return;
+    }
+
+    if (!WriteLong(v_sl, sl)) {
+        fprintf(stderr, "Error: GetReadPulseConfig() @param v_sl\n");
+        return;
+    }
+
+    if (!WriteLong(v_wl, wl)) {
+        fprintf(stderr, "Error: GetReadPulseConfig() @param v_wl\n");
+        return;
+    }
+
+    if (!WriteLong(pulse_width, width)) {
+        fprintf(stderr, "Error: GetReadPulseConfig() @param pulse_width\n");
+        return;
+    }
+}
 
 extern void StartTrain() {
     // load train data
@@ -76,8 +166,9 @@ extern void StartTrain() {
     TrackerSize = 0;
 }
 
-extern void GetTrainInstruction(void* end_of_train) {
+extern void GetTrainInstruction(void* end_of_train, void* operation_type, void* bl_enable, void* sl_enable) {
     int fired;
+    WriteLong(end_of_train, 0);
 
     refresh:    // label: refresh to obtain instructions
 
@@ -90,8 +181,9 @@ extern void GetTrainInstruction(void* end_of_train) {
         if (FetchTrainImage(++ImageIndex)) {
             goto refresh;
         } else {
-            // TODO: return empty instruction (end of train)
-            *(int*)end_of_train = 1;
+            // return empty instruction (end of train)
+            WriteLong(operation_type, EMPTY);
+            WriteLong(end_of_train, 1);
             return;
         }
     }
@@ -111,20 +203,31 @@ extern void GetTrainInstruction(void* end_of_train) {
     ++NetworkTime;
 
     if (fired) {
-        // TODO: return instruction (READ for PATTERN phase, RESET for BACKGROUND phase)
+        // return instruction (READ for PATTERN phase, RESET for BACKGROUND phase)
+        if (CurrentPhase == PATTERN) {
+            WriteLong(operation_type, READ);
+            WriteLongArray(sl_enable, InputSpikes, INPUT_SIZE);
 
+        } else {
+            WriteLong(operation_type, RESET);
+            WriteLongArray(sl_enable, InputSpikes, INPUT_SIZE);
+            WriteLong(bl_enable, (long)LIFFiredIndex);
+        }
         return;
     } else {
         goto refresh;
     }
 }
 
-extern void GetTrainFeedbackInstruction(int* currents) {
+extern void GetTrainFeedbackInstruction(void* bl_currents, void* operation_type, void* bl_enable, void* sl_enable) {
     // current unit: nA
+    long currents[8];
+    ReadLongArray(currents, bl_currents, OUTPUT_SIZE);
 
     // no operation during BACKGROUND phase
     if (CurrentPhase == BACKGROUND) {
-        // TODO: return empty feedback instruction
+        // return empty feedback instruction
+        WriteLong(operation_type, EMPTY);
         return;
     }
 
@@ -137,10 +240,14 @@ extern void GetTrainFeedbackInstruction(int* currents) {
     // fire
     FireOutputSpikes();
     if (LIFFiredIndex == -1) {
-        // TODO: return empty feedback instruction
+        // return empty feedback instruction
+        WriteLong(operation_type, EMPTY);
         return;
     } else {
-        // TODO: return feedback instruction (SET)
+        // return feedback instruction (SET)
+        WriteLong(operation_type, SET);
+        WriteLongArray(sl_enable, InputSpikes, INPUT_SIZE);
+        WriteLong(bl_enable, LIFFiredIndex);
 
         // switch phase to BACKGROUND
         CurrentPhase = BACKGROUND;
@@ -175,7 +282,7 @@ extern void StartTest() {
     InitIntArray(TestSetFiredTimings, TEST_SIZE, -1);
 }
 
-extern void GetTestInstruction() {
+extern void GetTestInstruction(void* operation_type, void* sl_enable) {
     int fired;
 
     refresh:    // label: refresh to obtain instructions
@@ -195,7 +302,9 @@ extern void GetTestInstruction() {
     ++NetworkTime;
 
     if (fired) {
-        // TODO: return instruction (READ)
+        // return instruction (READ)
+        WriteLong(operation_type, READ);
+        WriteLongArray(sl_enable, InputSpikes, INPUT_SIZE);
 
         return;
     } else {
@@ -203,8 +312,12 @@ extern void GetTestInstruction() {
     }
 }
 
-extern void GetTestFeedbackInstruction(int* currents, void* end_of_test) {
+extern void GetTestFeedbackInstruction(void* bl_currents, void* end_of_test) {
     // current unit: nA
+    long currents[8];
+    ReadLongArray(currents, bl_currents, OUTPUT_SIZE);
+
+    WriteLong(end_of_test, 0);
 
     // integrate
     int i;
@@ -215,11 +328,8 @@ extern void GetTestFeedbackInstruction(int* currents, void* end_of_test) {
     // fire
     FireOutputSpikes();
     if (LIFFiredIndex == -1) {
-        // TODO: return empty feedback instruction
         return;
     } else {
-        // TODO: return empty feedback instruction
-
         // save responses
         if (SetFlag == TRAIN) {
             TrainSetFiredNeurons[ImageIndex] = LIFFiredIndex;
@@ -236,11 +346,82 @@ extern void GetTestFeedbackInstruction(int* currents, void* end_of_test) {
             TestSetFiredTimings[ImageIndex] = LocalTime;
 
             if (!FetchTestImage(++ImageIndex)) {
-                // TODO: end of evaluate responses
-                *(int*)end_of_test = 1;
+                WriteLong(end_of_test, 1);
                 return;
             }
         }
+    }
+}
+
+extern void EvaluateScore() {
+    int i, j;
+    for (i = 0; i < OUTPUT_SIZE; ++i) {
+        for (j = 0; j < CATEGORIES; ++j) {
+            NeuronScores[i][j] = 0.;
+        }
+    }
+
+    // evaluate train set
+    for (i = 0; i < TRAIN_SIZE; ++i) {
+        NeuronScores[TrainSetFiredNeurons[i]][TrainLabels[i]] += 1. / (double)TrainSetFiredTimings[i];
+    }
+
+    // evaluate neuron label
+    for (i = 0; i < OUTPUT_SIZE; ++i) {
+        double max_score = NeuronScores[i][0];
+        int index = 0;
+        for (j = 1; j < CATEGORIES; ++j) {
+            if (NeuronScores[i][j] > max_score) {
+                max_score = NeuronScores[i][j];
+                index = j;
+            }
+        }
+
+        NeuronLabels[i] = index;
+    }
+
+    // train set score
+    TrainHit = 0;
+    for (i = 0; i < TRAIN_SIZE; ++i) {
+        TrainLabelsPredict[i] = NeuronLabels[TrainSetFiredNeurons[i]];
+
+        TrainHit += TrainLabelsPredict[i] == TrainLabels[i];
+    }
+
+    // test set score
+    TestHit = 0;
+    for (i = 0; i < TEST_SIZE; ++i) {
+        TestLabelsPredict[i] = NeuronLabels[TestSetFiredNeurons[i]];
+
+        TestHit += TestLabelsPredict[i] == TestLabels[i];
+    }
+
+    // save scores
+    SaveScores(ResultDir);
+}
+
+extern void SaveArray(void* bl0_currents, void* bl1_currents, void* bl2_currents, void* bl3_currents, void* bl4_currents, void* bl5_currents, void* bl6_currents, void* bl7_currents) {
+    // current unit: nA
+    long bl0[INPUT_SIZE], bl1[INPUT_SIZE], bl2[INPUT_SIZE], bl3[INPUT_SIZE], bl4[INPUT_SIZE], bl5[INPUT_SIZE], bl6[INPUT_SIZE], bl7[INPUT_SIZE];
+    ReadLongArray(bl0, bl0_currents, INPUT_SIZE);
+    ReadLongArray(bl1, bl1_currents, INPUT_SIZE);
+    ReadLongArray(bl2, bl2_currents, INPUT_SIZE);
+    ReadLongArray(bl3, bl3_currents, INPUT_SIZE);
+    ReadLongArray(bl4, bl4_currents, INPUT_SIZE);
+    ReadLongArray(bl5, bl5_currents, INPUT_SIZE);
+    ReadLongArray(bl6, bl6_currents, INPUT_SIZE);
+    ReadLongArray(bl7, bl7_currents, INPUT_SIZE);
+
+    int i;
+    for (i = 0; i < INPUT_SIZE; ++i) {
+        Weights[i][0] = (double)bl0[i] / (double)V_READ_SL;
+        Weights[i][1] = (double)bl1[i] / (double)V_READ_SL;
+        Weights[i][2] = (double)bl2[i] / (double)V_READ_SL;
+        Weights[i][3] = (double)bl3[i] / (double)V_READ_SL;
+        Weights[i][4] = (double)bl4[i] / (double)V_READ_SL;
+        Weights[i][5] = (double)bl5[i] / (double)V_READ_SL;
+        Weights[i][6] = (double)bl6[i] / (double)V_READ_SL;
+        Weights[i][7] = (double)bl7[i] / (double)V_READ_SL;
     }
 }
 
@@ -268,15 +449,16 @@ extern void Save() {
 
 extern void SaveThresholds(const char* path) {
     FILE* fp;
-    if ((fp = fopen(GetFilename(path, "thresholds.txt"), "w")) == NULL) {
+    if ((fp = fopen(GetFilename(path, "thresholds.txt"), "a")) == NULL) {
         fprintf(stderr, "Error saving thresholds.txt\n");
         return;
     }
 
     int i;
     for (i = 0; i < OUTPUT_SIZE; ++i) {
-        fprintf(fp, "%lf\n", LIFThresholds[i]);
+        fprintf(fp, "%lf ", LIFThresholds[i]);
     }
+    fprintf(fp, "\n");
 
     fclose(fp);
 }
@@ -298,7 +480,7 @@ extern void LoadThresholds(const char* path) {
 
 extern void SaveWeights(const char* path) {
     FILE* fp;
-    if ((fp = fopen(GetFilename(path, "weights.txt"), "w")) == NULL) {
+    if ((fp = fopen(GetFilename(path, "weights.txt"), "a")) == NULL) {
         fprintf(stderr, "Error saving weights.txt\n");
         return;
     }
@@ -310,6 +492,7 @@ extern void SaveWeights(const char* path) {
         }
         fprintf(fp, "\n");
     }
+    fprintf(fp, "\n");
 
     fclose(fp);
 }
@@ -385,6 +568,46 @@ extern void SaveLabels(const char* path) {
         fprintf(fp, "%d\n", TestLabels[i]);
     }
     fclose(fp);
+}
+
+extern void SaveScores(const char* path) {
+    FILE* fp;
+    if ((fp = fopen(GetFilename(path, "scores.txt"), "w")) == NULL) {
+        fprintf(stderr, "Error saving scores.txt\n");
+        return;
+    }
+
+    int i, j;
+    fprintf(fp, "Neuron scores: \n");
+    for (i = 0; i < OUTPUT_SIZE; ++i) {
+        for (j = 0; j < CATEGORIES; ++j) {
+            fprintf(fp, "%lf ", NeuronScores[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+    fprintf(fp, "\n");
+
+    fprintf(fp, "Neuron labels: \n");
+    for (i = 0; i < OUTPUT_SIZE; ++i) {
+        fprintf(fp, "%d ", NeuronLabels[i]);
+    }
+    fprintf(fp, "\n");
+
+    fprintf(fp, "Train predict labels: \n");
+    for (i = 0; i < TRAIN_SIZE; ++i) {
+        fprintf(fp, "%d ", TrainLabelsPredict[i]);
+    }
+    fprintf(fp, "\n");
+
+    fprintf(fp, "Test predict labels: \n");
+    for (i = 0; i < TEST_SIZE; ++i) {
+        fprintf(fp, "%d ", TestLabelsPredict[i]);
+    }
+    fprintf(fp, "\n");
+
+    fprintf(fp, "Accuracy: \n");
+    fprintf(fp, "Train: %d/%d = %lf\n", TrainHit, TRAIN_SIZE, (double)TrainHit / (double)TRAIN_SIZE);
+    fprintf(fp, "Test: %d/%d = %lf\n", TestHit, TEST_SIZE, (double)TestHit / (double)TEST_SIZE);
 }
 
 extern void SaveResponses(const char* path) {

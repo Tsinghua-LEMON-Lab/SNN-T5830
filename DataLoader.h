@@ -14,6 +14,7 @@
 #define TEST_SIZE 3147
 #define INPUT_SIZE 121
 #define OUTPUT_SIZE 8
+#define CATEGORIES 3
 
 
 extern double TrainImages[TRAIN_SIZE][INPUT_SIZE];
