@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<TITLE>FutureSuite ATL Test Plan Program Reference Manual</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#000080" ALINK="#FF0000">
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.5.html">[Prev]</A>
+<A HREF="atl_en_calb1.html">[Next]</A>
+<HR>
+<h1><a name="clink_1.6">Program Example</a></h1>
+
+<p><a name="pro_clink_1.6-1"><table border="1" cellpadding="0" width="80%"><caption align=bottom>ATL program</caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+            PRO SAMPLE
+
+              INTEGER[2]   A(10)=0,1,2,3,4,5,6,7,8,9
+              LOGICAL[3]   B=#12345678
+              CHARACTER[4] C=&quot;12345678&quot;
+              REAL[3]      D=1.234
+              STRING       E(10)=&quot;ABCDEFGHIJ&quot;
+
+              CALL CLOAD(&quot;object_file.so&quot;)
+              EXEC CCALL(&quot;FUNC&quot;,A,B,C,D,E)
+              CALL CUNLD(&quot;object_file.so&quot;)
+
+</code></pre></td></tr></table></a></p>
+<ul><li>
+    <p>
+    Variable area image
+    </p>
+</li></ul>
+<p><center><a name=""><img src="../../image/atl_clink_1_6_en.gif"></a><br></center><p>
+<p><a name="pro_clink_1.6-2"><table border="1" cellpadding="0" width="80%"><caption align=bottom>C program</caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+#include &quot;UTATL.h&quot;
+             void FUNC(void *arg1 , void *arg2 , void *arg3 , void *arg4 , void *arg5){
+                                /* arg1 ? (1) / arg2 ? (2) / arg3 ? (3) / arg4 ? (4) / arg5 ? (5) */
+                 long a[10];
+                 unsigned long b;
+                 char c[8];
+                 double d;
+                 char e[11];
+                 long signword_b;
+                 long signword_d;
+                 int status;
+
+                 status = UTATL_ClinkReadDim(arg1 , (void*)a , UTATL_VarTypeInte2   , NULL        , 10);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkReadVar(arg2 , (void*)&amp;b , UTATL_VarTypeLogi3   , &amp;signword_b);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkReadVar(arg3 , (void*)c  , UTATL_VarTypeChar4  , NULL);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkReadVar(arg4 , (void*)&amp;d , UTATL_VarTypeReal3  , &amp;signword_d);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkReadVar(arg5 , (void*)e , UTATL_VarTypeString , NULL);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+
+                        /*      Accordingly, data is assigned to a, b, c, d, and e as follows:
+
+                                  a[0]       1
+                                  a[1]       2
+                                  a[2]       3
+                                  a[3]       4
+                                  a[4]       5
+                                  a[5]       6
+                                  a[6]       7
+                                  a[7]       8
+                                  a[8]       9
+                                  a[9]       10
+
+                                  b          0x12345678
+                                  signword_b 0x0201
+
+
+                                  c[0]       '1'
+                                  c[1]       '2'
+                                  c[2]       '3'
+                                  c[3]       '4'
+                                  c[4]       '5'
+                                  c[5]       '6'
+                                  c[6]       '7'
+                                  c[7]       '8'
+
+                                  d          1.234
+                                  signword_d 0x0202
+
+
+                                  e[0]       'A'
+                                  e[1]       'B'
+                                  e[2]       'C'
+                                  e[3]       'D'
+                                  e[4]       'E'
+                                  e[5]       'F'
+                                  e[6]       'G'
+                                  e[7]       'H'
+                                  e[8]       'I'
+                                  e[9]       'J'
+                                  e[10]      NULL
+
+                        */
+
+
+
+
+                 a[0]=10;
+                 a[1]=9;
+                 a[2]=8;
+                 a[3]=7;
+                 a[4]=6;
+                 a[5]=5;
+                 a[6]=4;
+                 a[7]=3;
+                 a[8]=2;
+                 a[9]=1;
+
+                 b=0x87654321;
+
+                 strcpy(c,&quot;87654321&quot;);
+
+                 d=4.321;
+
+                 strcpy(e,&quot;JIHGFEDCBA&quot;);
+
+                 status = UTATL_ClinkWriteDim(arg1 , (void*)a , UTATL_VarTypeInte2 , 10);
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkWriteVar(arg2 , (void*)&amp;b , UTATL_VarTypeLogi3 );
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkWriteVar(arg3 , (void*)c  , UTATL_VarTypeChar4 );
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkWriteVar(arg4 , (void*)&amp;d , UTATL_VarTypeReal3 );
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+                 status = UTATL_ClinkWriteVar(arg5 , (void*)e , UTATL_VarTypeString );
+                 if( status!=UTATL_CLINK_OK ){
+                     fprintf(stderr,&quot;error:FUNC\n&quot; );
+                     return;
+                 }
+
+                        /*      Accordingly, data is assigned to the ATE variables A, B, C, D, and E as follows:
+
+                                  A(1)       10
+                                  A(2)       9
+                                  A(3)       8
+                                  A(4)       7
+                                  A(5)       6
+                                  A(6)       5
+                                  A(7)       4
+                                  A(8)       3
+                                  A(9)       2
+                                  A(10)      1
+
+                                  B          0x87654321
+
+                                  C          &quot;87654321&quot;
+
+                                  D          4.321
+
+                                  E          &quot;JIHGFEDCBA&quot;
+
+                        */
+
+             }/*  end of &quot;FUNC&quot;  */
+</code></pre></td></tr></table></a></p>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.5.html">[Prev]</A>
+<A HREF="atl_en_calb1.html">[Next]</A>
+<HR>
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+</BODY>
+</HTML>

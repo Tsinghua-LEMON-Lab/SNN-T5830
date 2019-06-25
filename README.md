@@ -11,6 +11,12 @@ A shared library providing with greedy training algorithms for SNNs.
 
 - AdvanTest T5830 platform (linux)
 
+## Guidance
+
+- [ATL与C交互](ATLxC-guidance/atl_en_clink_1.html)
+- [在测试平台编译C shared library for ATL](ATLxC-guidance/atl_en_clink_1.5.html)
+- [样例程序](ATLxC-guidance/atl_en_clink_1.6.html)
+
 ## APIs
 
 - [ ] `void GetSetPulseConfig(void* v_bl, void* v_sl, void* v_wl, void* pulse_width)`

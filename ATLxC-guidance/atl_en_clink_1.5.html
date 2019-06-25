@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<TITLE>FutureSuite ATL Test Plan Program Reference Manual</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#000080" ALINK="#FF0000">
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.4.4.html">[Prev]</A>
+<A HREF="atl_en_clink_1.6.html">[Next]</A>
+<HR>
+<h1><a name="clink_1.5">How to Create the Object File</a></h1>
+
+<p>
+In the same manner as the program compilation using a compiler such as cc and gcc, specify options and file name after the compiler command then perform conversion.
+</p>
+<p>
+FutureSuite provides the following environment variables to specify compiler commands and header file paths to be used when compiling programs.
+</p>
+<p><a name="FSlibraries"><table border="1" width="80%">
+<caption>Environment Variables for Compilation Provided by FutureSuite</caption>
+
+<tr><td valign="middle" bgcolor="#D8FEF0">Environment variable name</td><td valign="middle" bgcolor="#D8FEF0">Description</td></tr>
+<tr><td valign="middle">ATFSSITECC</td><td valign="middle">Command to compile the main program to be operated in the tester</td></tr>
+<tr><td valign="middle">ATFSSYSPCC</td><td valign="middle">Command to compile the main program to be operated in TESIM and the data process program</td></tr>
+<tr><td valign="middle">ATFSSITECFLAGS</td><td valign="middle">Compile option to compile the main program to be operated in the tester</td></tr>
+<tr><td valign="middle">ATFSSYSPCFLAGS</td><td valign="middle">Compile option to compile the main program to be operated in TESIM and the data process program</td></tr>
+<tr><td valign="middle">ATFSSITEARCH</td><td valign="middle">CPU architecture name of site processor</td></tr>
+<tr><td valign="middle">ATFSSYSPARCH</td><td valign="middle">CPU architecture name of system processor</td></tr>
+<tr><td valign="middle">ATFSSITEOS</td><td valign="middle">Basic OS for site processor</td></tr>
+<tr><td valign="middle">ATFSSYSPOS</td><td valign="middle">Basic OS for system processor</td></tr>
+
+</a></table></p>
+<p>
+The following describes the parameters to be specified when compiling programs:
+</p>
+<ul><li>
+    <p>
+    Specifying a compiler command name
+    </p>
+    <p>
+    For the compiler command name, specify &quot;${ATFSSITECC}&quot;.
+    </p>
+    <center><p><a name=""><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+    <p>
+    When creating a TESIM program using the T5831, specify &quot;${ATFSSYSPCC}&quot;.
+    (The programs compiled specifying &quot;${ATFSSITECC}&quot; cannot be executed by TESIM. Also, those compiled specifying &quot;${ATFSSYSPCC}&quot; cannot be executed by a tester.)
+    </p>
+    </strong></td></tr></table></a></p></center>
+    </li><li><p>
+    Specifying compile option
+    </p>
+    <p>
+    Specify &quot;${ATFSSITECFLAGS}&quot; as a compile option which is specified when compiling.
+    </p>
+    <center><p><a name=""><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+    <p>
+    When creating a TESIM program using the T5831, specify &quot;${ATFSSYSPCFLAGS}&quot;.
+    </p>
+    </strong></td></tr></table></a></p></center>
+    </li><li><p>
+    Specifying header files paths
+    </p>
+    <p>
+    Specify the header file paths to be set when compiling the program by using the preceding environment variables provided by FutureSuite.
+    </p>
+    <p>
+    Specify the following header file paths by using the -I option:
+    </p>
+    <ul><li>
+        <p>
+        ${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSATL}/include
+        </p>
+        </li><li><p>
+        ${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSSYS}/include
+        </p>
+        </li><li><p>
+        ${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSTBUS}/include
+        </p>
+        </li><li><p>
+        ${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSVTC}/include
+        </p>
+    </li></ul>
+    <center><p><a name=""><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+    <p>
+    When creating a TESIM program using the T5831, change the environment variables as follows:
+    </p>
+    <ul><li>
+        <p>
+        &quot;${ATFSSITEARCH}&quot;-&gt;&quot;${ATFSSYSPARCH}&quot;
+        </p>
+        </li><li><p>
+        &quot;${ATFSSITEOS}&quot;-&gt;&quot;${ATFSSYSPOS}&quot;
+        </p>
+    </li></ul>
+    </strong></td></tr></table></a></p></center>
+    </li><li><p>
+    Specifying code generation and link options
+    </p>
+    <p>
+    Specify the following code generation and link options used when compiling a program:
+    </p>
+    <ul><li>
+        <p>
+        Code generation option
+        </p>
+        <ul><li>
+            <p>
+            -fpic
+            </p>
+        </li></ul>
+        </li><li><p>
+        Link option
+        </p>
+        <ul><li>
+            <p>
+            -shared
+            </p>
+        </li></ul>
+    </li></ul>
+</li></ul>
+<center><p><a name=""><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+<ul><li>
+    <p>
+    Specify compilation options as needed such as debugging and optimization (for example, to debug a program using a debugger, specify the -g option).
+    </p>
+    <p>
+    For more information, refer to the manuals of the compilers provided by environment variables.
+    </p>
+</li></ul>
+</strong></td></tr></table></a></p></center>
+<p>
+Compilation using the preceding commands requires them to be entered for each execution. As for the program having multiple source files, all source files must be compiled even when only some of them were updated.
+</p>
+<p>
+To solve this problem, compilation using the make function is recommended.
+By using the make function, programs can be compiled by just describing information required for compilation in Makefile and executing the make command. Furthermore, the parts related to the updated files are updated so that operation efficiency can be increased.
+</p>
+<p>
+The following shows an example Makefile description:
+</p>
+<ul><li>
+    <p>
+    Example Makefile description
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+  # FutureSuite sample Makefile
+  #
+
+              CC = <u>${ATFSSITECC}</u>                                                            # (a)
+
+             PRO = <u>sample.so</u>                                                                # (b)
+
+            SRCS = <u>sample_main.c sample_sub.c</u>                                               # (c)
+
+            OBJS = ${SRCS:%.c=%.o}
+
+       ATFS_INCS = <u>-I${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSATL}/include \</u>         # (d)
+                   <u>-I${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSSYS}/include \</u>
+                   <u>-I${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSTBUS}/include \</u>
+                   <u>-I${ATFSROOT}/${ATFSSITEARCH}/${ATFSSITEOS}/${ATFSVTC}/include</u>
+
+   ATFS_PICFLAGS = <u>-fpic</u>                                                                    # (e)
+
+    ATFS_LDFLAGS = <u>-shared</u>                                                                  # (f)
+
+     ATFS_CFLAGS = <u>${ATFSSITECFLAGS} -g</u>                                                     # (g)
+
+  pro: ${PRO}
+
+  ${PRO}: ${OBJS}
+        ${CC} ${ATFS_CFLAGS} <u>${ATFS_LDFLAGS}</u> -o $@ ${OBJS}                                  # (h)
+
+  %.o: %.c
+        ${CC} ${ATFS_CFLAGS} <u>${ATFS_PICFLAGS} ${ATFS_INCS}</u> -c $&lt;                            # (i)
+
+  clean:
+        rm -f ${PRO} ${OBJS}
+    </code></pre></td></tr></table></a></p>
+    <ol type="a"><li>
+        <p>
+        Describe a compiler command.
+        </p>
+        </li><li><p>
+        Describe the object file name.
+        </p>
+        </li><li><p>
+        Describe source file names. Multiple source files can be described by delimiting them with space characters.
+        </p>
+        </li><li><p>
+        Describe header file search paths.
+        </p>
+        </li><li><p>
+        Describe the code generation option.
+        </p>
+        </li><li><p>
+        Describe the link option.
+        </p>
+        </li><li><p>
+        Describe compilation options.
+        </p>
+        </li><li><p>
+        Describe the command that generates an object file. For the option, describe &quot;${ATFS_LDFLAGS}(link option).&quot;
+        </p>
+        </li><li><p>
+        Describe the command that compiles each source file. For the option, describe the following defined environment variables:
+        </p>
+        <ul><li>
+            <p>
+            &quot;${ATFS_PICFLAGS}(code generation option)&quot;
+            </p>
+            </li><li><p>
+            &quot;${ATFS_INCS}(header file path)&quot;
+            </p>
+        </li></ul>
+    </li></ol>
+    <center><p><a name=""><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+    <ul><li>
+        <p>
+        The &quot;${CC}&quot; and &quot;rm&quot; lines must start with a tab character.
+        </p>
+        </li><li><p>
+        If description cannot fit solely on one line, the next line can be used by adding a backslash (\) to the end of the line.
+        </p>
+    </li></ul>
+    </strong></td></tr></table></a></p></center>
+</li></ul>
+<p>
+The created Makefile is executed by the make command (&quot;/usr/bin/make&quot;).
+</p>
+<p>
+The following shows how to use the make command.
+</p>
+<ol type="a"><li>
+    <p>
+    To generate object file:
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#D8FEF0"><pre><samp>
+
+      % make -f &lt;Makefile name&gt;
+    </samp></pre></td></tr></table></a></p>
+    <p>
+    With this command, an object file is generated in the current directory.
+    </p>
+    </li><li><p>
+    To delete generated file:
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#D8FEF0"><pre><samp>
+
+      % make -f &lt;Makefile name&gt; clean
+    </samp></pre></td></tr></table></a></p>
+    <p>
+    With this command, the object file in the current directory is deleted.
+    </p>
+</li></ol>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.4.4.html">[Prev]</A>
+<A HREF="atl_en_clink_1.6.html">[Next]</A>
+<HR>
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+</BODY>
+</HTML>

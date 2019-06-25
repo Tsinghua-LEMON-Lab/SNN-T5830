@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<TITLE>FutureSuite ATL Test Plan Program Reference Manual</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#000080" ALINK="#FF0000">
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.html">[Prev]</A>
+<A HREF="atl_en_clink_1.2.html">[Next]</A>
+<HR>
+<h1><a name="clink_1.1">CALL CLOAD</a></h1>
+
+<ol><li>
+    <p>
+    Function
+    </p>
+    <p>
+    This utility loads the object file of the C program to the memory.
+    </p>
+    </li><li><p>
+    Syntax
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+    CALL CLOAD(OBJNAME,ECODE,MODE)
+    </code></pre></td></tr></table></a></p>
+    <ul><li>
+        <p>
+        OBJNAME
+        </p>
+        <p>
+        Specify the name of the object file to be loaded.
+        </p>
+        <p>
+        Specify the file name by using the STRING variable or a character constant.
+        </p>
+        <p>
+        This argument cannot be omitted.
+        </p>
+        <p>
+        For more information on how to create the object file, refer to <a href="atl_en_clink_1.5.html">How to Create the Object File</a>.
+        </p>
+        </li><li><p>
+        ECODE
+        </p>
+        <p>
+        Specify the variable that stores an error code when an error occurs.
+        </p>
+        <p>
+        If the program ends correctly, -1 is stored.
+        </p>
+        <p>
+        Specify the variable by using an integer variable.
+        </p>
+        <p>
+        This argument can be omitted.
+        </p>
+        </li><li><p>
+        MODE
+        </p>
+        <p>
+        Specify the mode that unloads the object file.
+        </p>
+        <p>
+        Specify the mode by using an integer variable or integer constant.
+        </p>
+        <p>
+        This argument can be omitted. The default value is 0.
+        </p>
+        <p><a name="itable_clink1.1-1"><table border="1" width="80%">
+<caption>MODE Setting Range</caption>
+
+<tr><td valign="middle" bgcolor="#D8FEF0">Setting range</td></tr>
+<tr><td valign="middle">0 1</td></tr>
+
+</a></table></p>
+    </li></ul>
+    <p>
+    CLOAD is used to unload the object file, which is specified in OBJNAME, to the memory.
+    </p>
+    <p>
+    Only a file name can be specified in OBJNAME. No path can be specified.
+    </p>
+    <p>
+    Object files are searched for in the following order:
+    </p>
+    <ol><li>
+        <p>
+         ADI_ADP1 environment variable
+        </p>
+        </li><li><p>
+         The directory that is set by the <a href="../../../ATFSsys/html/en/BasicIF_en_dlnk.html">Directory Linker</a>
+        </p>
+        </li><li><p>
+         DP0 environment variable
+        </p>
+    </li></ol>
+    <p>
+    If the specified object file is already loaded, the object file is not reloaded.
+    </p>
+    <p>
+    By executing CLOAD more than once, multiple object files can be loaded.
+    </p>
+    <p><a name="itable_clink1.1-2"><table border="1" width="80%">
+<caption>MODE Argument</caption>
+
+<tr><td valign="middle" bgcolor="#D8FEF0">MODE</td><td valign="middle" bgcolor="#D8FEF0">Timing of unload</td></tr>
+<tr><td valign="middle">0 (Automatic mode)</td><td valign="middle">Unloads the object file when the program ends.</td></tr>
+<tr><td valign="middle">1 (Manual mode)</td><td valign="middle">Does not unload the object file when the program ends.</td></tr>
+
+</a></table></p>
+    <p>
+    If any of the following conditions is satisfied, the object file is unloaded regardless of the mode.
+    </p>
+    <ul><li>
+        <p>
+        When CUNLD is executed
+        </p>
+    </li></ul>
+</li></ol>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.html">[Prev]</A>
+<A HREF="atl_en_clink_1.2.html">[Next]</A>
+<HR>
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+</BODY>
+</HTML>

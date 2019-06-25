@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<TITLE>FutureSuite ATL Test Plan Program Reference Manual</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#000080" ALINK="#FF0000">
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+<HR>
+<A HREF="atl_en_clink_1.4.html">[Up]</A>
+<A HREF="atl_en_clink_1.4.html">[Prev]</A>
+<A HREF="atl_en_clink_1.4.2.html">[Next]</A>
+<HR>
+<h1><a name="clink_1.4.1">UTATL_ClinkReadVar</a></h1>
+
+<ol><li>
+    <p>
+    Function
+    </p>
+    <p>
+    This function reads ATL variables in the C program of the CLINK utility.
+    </p>
+    </li><li><p>
+    Syntax
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+    #include &quot;UTATL.h&quot;
+    int UTATL_ClinkReadVar( void *atlvar , void  *dest   , int type , long *signword )
+    </code></pre></td></tr></table></a></p>
+    <ul><li>
+        <p>
+        atlvar
+        </p>
+        <p>
+        Specify the ATL variable address that was passed as an argument.
+        </p>
+        </li><li><p>
+        dest
+        </p>
+        <p>
+        Specify the pointer that stores data of the ATL variable to be read.
+        </p>
+        <p>
+        Specify the variable address that corresponds to the ATL variable data.
+        </p>
+        <p>
+        Specify the address by casting it as void.
+        </p>
+        <p>
+        The area is provided by the function that uses the variable.
+        </p>
+        <p><a name="itableclink_1.4.1"><table border="1" width="80%">
+<caption></caption>
+
+<tr><td valign="middle" bgcolor="#D8FEF0">ATL variable</td><td valign="middle" bgcolor="#D8FEF0">Required variable</td></tr>
+<tr><td valign="middle">INTEGER[1]</td><td valign="middle">long xxx;</td></tr>
+<tr><td valign="middle">INTEGER[2]</td><td valign="middle">long xxx;</td></tr>
+<tr><td valign="middle">INTEGER[3]</td><td valign="middle">long xxx;</td></tr>
+<tr><td valign="middle">INTEGER[4]</td><td valign="middle">long xxx[2];</td></tr>
+<tr><td valign="middle">LOGICAL[1]</td><td valign="middle">unsigned long xxx;</td></tr>
+<tr><td valign="middle">LOGICAL[2]</td><td valign="middle">unsigned long xxx;</td></tr>
+<tr><td valign="middle">LOGICAL[3]</td><td valign="middle">unsigned long xxx;</td></tr>
+<tr><td valign="middle">LOGICAL[4]</td><td valign="middle">unsigned long xxx[2];</td></tr>
+<tr><td valign="middle">REAL[2]</td><td valign="middle">double xxx;</td></tr>
+<tr><td valign="middle">REAL[3]</td><td valign="middle">double xxx;</td></tr>
+<tr><td valign="middle">REAL[4]</td><td valign="middle">double xxx;</td></tr>
+<tr><td valign="middle">CHARACTER[1]</td><td valign="middle">char xxx[2]; (*1)</td></tr>
+<tr><td valign="middle">CHARACTER[2]</td><td valign="middle">char xxx[4]; (*1)</td></tr>
+<tr><td valign="middle">CHARACTER[3]</td><td valign="middle">char xxx[6]; (*1)</td></tr>
+<tr><td valign="middle">CHARACTER[4]</td><td valign="middle">char xxx[8]; (*1)</td></tr>
+<tr><td valign="middle">STRING(n)</td><td valign="middle">char xxx[n+1]; (*2)</td></tr>
+<tr><td valign="middle">GENERAL[3]</td><td valign="middle">long xxx; (*3)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">unsigned long xxx; (*4)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">double xxx; (*5)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">char xxx[6]; (*1)(*6)</td></tr>
+<tr><td valign="middle">GENERAL[5]</td><td valign="middle">long xxx[2]; (*3)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">unsigned long xxx[2]; (*4)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">double xxx; (*5)</td></tr>
+<tr><td valign="middle"></td><td valign="middle">char xxx[10]; (*1)(*6)</td></tr>
+
+</a></table></p>
+        <ul><li>
+            <p>
+            (*1) This will not be terminated with '\0'.
+            </p>
+            </li><li><p>
+            (*2) This will be terminated with '\0'.
+            </p>
+            </li><li><p>
+            (*3) Specify this when value of INTEGER type is stored in GENERAL variable.
+            </p>
+            </li><li><p>
+            (*4) Specify this when value of LOGICAL type is stored in GENERAL variable.
+            </p>
+            </li><li><p>
+            (*5) Specify this when value of REAL type is stored in GENERAL variable.
+            </p>
+            </li><li><p>
+            (*6) Specify this when value of CHARACTER type is stored in GENERAL variable.
+            </p>
+        </li></ul>
+        </li><li><p>
+        type
+        </p>
+        <p>
+        Variable type and size. Specify the following macro.
+        </p>
+        <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+
+    UTATL_VarTypeInte1  /* INTEGER[1] */
+    UTATL_VarTypeInte2  /* INTEGER[2] */
+    UTATL_VarTypeInte3  /* INTEGER[3] */
+    UTATL_VarTypeInte4  /* INTEGER[4] */
+
+    UTATL_VarTypeLogi1  /* LOGICAL[1] */
+    UTATL_VarTypeLogi2  /* LOGICAL[2] */
+    UTATL_VarTypeLogi3  /* LOGICAL[3] */
+    UTATL_VarTypeLogi4  /* LOGICAL[4] */
+
+    UTATL_VarTypeReal2  /* REAL[2] */
+    UTATL_VarTypeReal3  /* REAL[3] */
+    UTATL_VarTypeReal4  /* REAL[4] */
+
+    UTATL_VarTypeChar1  /* CHARACTER[1] */
+    UTATL_VarTypeChar2  /* CHARACTER[2] */
+    UTATL_VarTypeChar3  /* CHARACTER[3] */
+    UTATL_VarTypeChar4  /* CHARACTER[4] */
+
+    UTATL_VarTypeString /* STRING */
+
+    UTATL_VarTypeGene3  /* GENERAL[3] */
+    UTATL_VarTypeGene5  /* GENERAL[5] */
+
+        </code></pre></td></tr></table></a></p>
+        <center><p><a name="caution_clink_1.4.1"><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+        <p>
+        When specified a model of a variable and size by mistake, it may cause memory destruction.
+        </p>
+        </strong></td></tr></table></a></p></center>
+        </li><li><p>
+        signword
+        </p>
+        <p>
+        Specify the area in which the variable information is stored.
+        Variable information is one top word of a variable area which the word size of the variable is three or five words and STRING variable.
+        For more information, refer to <a href="atl_en_9.2.2.10.html">Variable Type Declaration and Data Formats</a>.
+        </p>
+        <p>
+        Specify the address of the long-type area.
+        </p>
+        <p>
+        The area is provided by the function that uses the variable.
+        </p>
+        <p>
+        This argument is enabled when the word size of the variable is three or five words and STRING variable.
+        </p>
+        <p>
+        If NULL is specified in this argument, no variable information is returned regardless of whether the variable information exists. (No error occurs.)
+        </p>
+        <p>
+        Therefore, specify NULL if either of the following conditions is satisfied:
+        </p>
+        <ul><li>
+            <p>
+            Except the word size of the variable is three and five words or STRING variable.
+            </p>
+            </li><li><p>
+            No variable information is required even if the word size of the variable is three or five words or STRING variable.
+            </p>
+        </li></ul>
+        </li><li><p>
+        Return value
+        </p>
+        <p><a name="rtableclink_1.4.1"><table border="1" width="80%">
+<caption></caption>
+
+<tr><td valign="middle" bgcolor="#D8FEF0">Return value</td><td valign="middle" bgcolor="#D8FEF0">Description</td></tr>
+<tr><td valign="middle">UTATL_CLINK_OK</td><td valign="middle">Success</td></tr>
+<tr><td valign="middle">UTATL_CLINK_ERR_ADDRESS</td><td valign="middle">Returned when NULL is specified in the atlvar and dest arguments.</td></tr>
+<tr><td valign="middle">UTATL_CLINK_ERR_TYPE</td><td valign="middle">Returned when the value specified in the type argument is out of the specified range.</td></tr>
+
+</a></table></p>
+    </li></ul>
+</li></ol>
+<HR>
+<A HREF="atl_en_clink_1.4.html">[Up]</A>
+<A HREF="atl_en_clink_1.4.html">[Prev]</A>
+<A HREF="atl_en_clink_1.4.2.html">[Next]</A>
+<HR>
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+</BODY>
+</HTML>

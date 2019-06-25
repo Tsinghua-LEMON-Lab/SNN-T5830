@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<TITLE>FutureSuite ATL Test Plan Program Reference Manual</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#000080" ALINK="#FF0000">
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.2.html">[Prev]</A>
+<A HREF="atl_en_clink_1.4.html">[Next]</A>
+<HR>
+<h1><a name="clink_1.3">EXEC CCALL</a></h1>
+
+<ol><li>
+    <p>
+    Function
+    </p>
+    <p>
+    This utility calls the C program functions from the ATL program.
+    </p>
+    </li><li><p>
+    Syntax
+    </p>
+    <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+    EXEC CCALL(FUNC,ARG1,ARG2,...)
+    </code></pre></td></tr></table></a></p>
+    <ul><li>
+        <p>
+        FUNC
+        </p>
+        <p>
+        Specify the function name to be called.
+        </p>
+        <p>
+        Specify the function name by using the STRING variable or a character constant.
+        </p>
+        <p>
+        This argument cannot be omitted.
+        </p>
+        <center><p><a name="caution_clink_1.3.1"><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+        <p>
+        If an MCI executed by the function generates a runtime error, the test plan program execution terminates.
+        </p>
+        <ul><li>
+            <p>
+            Branch processing is not performed by the ON or ONCALL statement.
+            </p>
+            </li><li><p>
+            The setting for error break specified by using Lib Debug is ignored.
+            </p>
+        </li></ul>
+        </strong></td></tr></table></a></p></center>
+        </li><li><p>
+        ARG1,ARG2,...
+        </p>
+        <p>
+        Specify the arguments that are passed to the function to be called. An arbitrary number and type of variables can be specified.
+        </p>
+        <p>
+        However, the arguments must be specified by using variables when executing CCALL.
+        </p>
+        <p>
+        These arguments can be omitted.
+        </p>
+        <p>
+        Up to 35 arguments can be specified.
+        </p>
+        <p>
+        In CCALL, the memory addresses that correspond to the arguments (ARG1, ARG2,...) are regarded as separate addresses and are passed to the called function that is specified in FUNC.
+        </p>
+        <p>
+        The arguments that are passed to CCALL must be specified by using variables.
+        </p>
+        <p>
+        The function specified in FUNC must receive as many arguments as the arguments that were passed to CCALL and from which FUNC is excluded.
+        </p>
+        <p>
+        However, CCALL does not concern the number of arguments that are received by the called function.
+        </p>
+        <p>
+        The application that uses CCALL matches the number of arguments passed and the number of arguments received.
+        </p>
+        <ul><li>
+            <p>
+            ATL program
+            </p>
+            <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+EXEC CCALL(&quot;FUNC&quot;,ARG1,ARG2,...ARGn)
+            </code></pre></td></tr></table></a></p>
+            </li><li><p>
+            C program
+            </p>
+            <p><a name=""><table border="1" cellpadding="0" width="80%"><caption align=bottom></caption><tr><td valign="middle" bgcolor="#FBFDE0"><pre><code>
+
+void FUNC(void *arg1 , void *arg2 , ... ,void *argn)
+            </code></pre></td></tr></table></a></p>
+        </li></ul>
+        <center><p><a name="caution_clink_1.3"><table border="1" cellpadding="5" width="80%"><tr><td align="center" valign="middle" bgcolor="#CCCC99"><font color="RED">CAUTION</font></td></tr><tr><td valign="middle" bgcolor="#FFFF33"><strong>
+        <p>
+        When reading or writing variable areas, use the dedicated API functions.
+        </p>
+        <p>
+        The variable areas must not be read or written directly.
+        </p>
+        <p>
+        For more information on the API functions, refer to the following:
+        </p>
+        <p>
+        <a href="atl_en_clink_1.4.html">Variable Area READ/WRITE API Functions</a>
+        </p>
+        </strong></td></tr></table></a></p></center>
+    </li></ul>
+</li></ol>
+<HR>
+<A HREF="atl_en_clink_1.html">[Up]</A>
+<A HREF="atl_en_clink_1.2.html">[Prev]</A>
+<A HREF="atl_en_clink_1.4.html">[Next]</A>
+<HR>
+<A HREF="atl_en_TOC.html">Table of Contents</A>
+<DIV ALIGN=RIGHT>FutureSuite ATL Test Plan Program Reference Manual</DIV>
+</BODY>
+</HTML>
