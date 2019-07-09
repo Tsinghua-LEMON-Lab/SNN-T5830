@@ -1,4 +1,8 @@
 .DS_Store
 doc/
 .idea/
+cmake-build-debug/
+compiled/
+CMakeLists.txt
+
 
