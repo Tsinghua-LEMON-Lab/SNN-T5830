@@ -1,0 +1,61 @@
+SOCKET SOC_weisuo
+  
+     WLEBL =P1  =1
+     A0    =P2  =2
+     A1    =P3  =3
+     A2    =P4  =4
+     A3	   =P5  =5
+     A4    =P6  =6
+     A5    =P7  =7
+     A6    =P8  =8
+     WLREF =P9  =9
+     BL0   =P10 =10
+     BL1   =P11 =11
+     BL2   =P12 =12
+     BL3   =P13 =13
+     BL4   =P14 =14
+     BL5   =P15 =15
+     BL6   =P16 =16
+     BL7   =P17 =17
+     SL    =P18 =18   
+     
+    DEFINE MULTIPLE 1DUT 2SITE  ;for block 4
+    SYSTEMDUT1  = SITE2, DUT1
+
+
+    ;DEFINE MULTIPLE 1DUT 1SITE
+    ;SYSTEMDUT1  = SITE1, DUT1
+    ;SYSTEMDUT2  = SITE1, DUT2
+    ;SYSTEMDUT3  = SITE1, DUT3
+    ;SYSTEMDUT4  = SITE1, DUT4
+    ;SYSTEMDUT5  = SITE1, DUT5
+    ;SYSTEMDUT6  = SITE1, DUT6
+    ;SYSTEMDUT7  = SITE1, DUT7
+    ;SYSTEMDUT8  = SITE1, DUT8
+    ;SYSTEMDUT9  = SITE1, DUT9
+    ;SYSTEMDUT10 = SITE1, DUT10
+    ;SYSTEMDUT11 = SITE1, DUT11
+    ;SYSTEMDUT12 = SITE1, DUT12
+    
+	
+  CHTYPE42     ;T5830
+  BIT=18
+  PPS=1
+
+                ;wlebl,a0 ,a1   ,a2  ,a3  ,a4  ,a5  ,a6  ,wlref,bl0 ,bl1 ,bl2 ,bl3 ,bl4 ,bl5 ,bl6 ,bl7 ,sl     
+  DUT# =  VS1,   P1  ,P2  ,P3   ,P4  ,P5  ,P6  ,P7  ,P8  ,P9   ,P10 ,P11 ,P12 ,P13 ,P14 ,P15 ,P16 ,P17 ,P18  
+  DUT1 =  PPS12B,P33B,P34B,P35B ,P36B,P37B,P38B,P39B,P40B,P41B,P42B,P43B,P44B,P45B ,P46B ,P47B,P48B,P49B,P50B
+  ;DUT2 =  PPS11B ,PD37C ,PD40C ,P35C  ,P38C  ,P36C ,P39C
+  ;DUT3 =  PPS12A ,PD53B ,PD56B ,P51B  ,P54B  ,P52B ,P55B
+  ;DUT4 =  PPS11A ,PD53C ,PD56C ,P51C  ,P54C  ,P52C ,P55C
+  ;DUT5 =  PPS7B  ,PD5C  ,PD8C  ,P3C   ,P6C   ,P4C  ,P7C
+  ;DUT6 =  PPS6B  ,PD5B  ,PD8B  ,P3B   ,P6B   ,P4B  ,P7B
+  ;DUT7 =  PPS7A  ,PD21C ,PD24C ,P19C  ,P22C  ,P20C ,P23C
+  ;DUT8 =  PPS6A  ,PD21B ,PD24B ,P19B  ,P22B  ,P20B ,P23B
+  ;DUT9 =  PPS2B  ,PD37A ,PD40A ,P35A  ,P38A  ,P36A ,P39A 
+  ;DUT10 = PPS1B  ,PD5A  ,PD8A  ,P3A   ,P6A   ,P4A  ,P7A
+  ;DUT11 = PPS2A  ,PD53A ,PD56A ,P51A  ,P54A  ,P52A ,P55A
+  ;DUT12 = PPS1A  ,PD21A ,PD24A ,P19A  ,P22A  ,P20A ,P23A
+
+  
+END

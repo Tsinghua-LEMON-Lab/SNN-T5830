@@ -1,15 +1,12 @@
-PRO = SNN_lib_tesim.so
+PRO=SNN_lib.so
 
-SRCDIR = src
-OBJDIR = obj
+SRCS=ATLio.c  DataLoader.c  Network.c  Utils.c
 
-SRCS = $(wildcard $(SRCDIR)/*.c)
+ARCH		= ${ATFSSITEARCH}
+CC		= ${ATFSSITECC} 
+ATFS_CFLAGS	= -g
 
-ARCH		= ${ATFSSERVERARCH}
-CC		= ${ATFSSYSPCC} 
-ATFS_CFLAGS	= ${ATFSSYSPCFLAGS} -g
-
-OBJS		= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+OBJS		= ${SRCS:%.c=%.o}
 
 ATFS_INCS	= -I${ATFSROOT}/${ARCH}/${ATFSSITEOS}/${ATFSATL}/include \
 		  -I${ATFSROOT}/${ARCH}/${ATFSSITEOS}/${ATFSSYS}/include \
@@ -45,13 +42,11 @@ all:	clean make
 ${PRO}:	${OBJS}
 	${CC} ${ATFS_CFLAGS} ${ATFS_LIBS} ${OBJS} -shared -o $@ 
 
-${OBJDIR}/%.o: ${SRCDIR}/%.c
-	@mkdir -p $(dir $@)
-	${CC} ${ATFS_CFLAGS} -fpic ${ATFS_INCS} -c -o $@ $<
-
+%.o:%.c
+	${CC} ${ATFS_CFLAGS} -fpic ${ATFS_INCS} -c  $<
 
 make:	${PRO}
 
 clean:
-	rm -f ${PRO} ${OBJS}
+	rm -f ${PRO} ${OBJS} *.o 
 

@@ -1,0 +1,23 @@
+WRITE /,"-#*-#*","    ",
+WRITE ,"xaddress","    ",
+WRITE ,"yaddress","    ",
+WRITE ,"read_current","    ",
+WRITE ,"N_th",/
+	A6 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y6>
+	A5 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y5>
+	A4 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y4>
+	A3 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y3>
+	A2 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y2>
+	A1 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y1>
+	A0 = IN1,RZO,BCLK1,LINIT,CYP1,                               <Y0>
+TIME1=1MS:VS1
+TIME2=2MS:IN
+TIME3=3MS:OTHERS
+SRON
+;GOSUB SB_READ_CURRENT_501(MUL_TIME,MUL_NUM)
+GOSUB SB_READ_CURRENT_502(MUL_NUM)
+
+
+
+
+
