@@ -10,6 +10,7 @@ double TrainImages[TRAIN_SIZE][INPUT_SIZE];
 int TrainLabels[TRAIN_SIZE];
 double TestImages[TEST_SIZE][INPUT_SIZE];
 int TestLabels[TEST_SIZE];
+int tester = 0;
 
 extern void LoadMNIST() {
     FILE *fptr1, *fptr2;
@@ -44,4 +45,17 @@ extern void LoadMNIST() {
     }
 
     fclose(fptr2);
+}
+
+extern void ShowMNIST() {
+    fprintf(stdout, "$tester = %d\n", ++tester);
+    
+    int x, y;
+    for (x = 0; x < 11; ++x) {
+        for (y = 0; y < 11; ++y) {
+            fprintf(stdout, "%lf ", TrainImages[tester][x*11 + y]);
+        }
+
+        fprintf(stdout, "\n");
+    }
 }

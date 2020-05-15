@@ -8,6 +8,11 @@
 
 #include "UTATL.h"
 
+void	ATLio(void)
+{
+ fprintf(stdout,"ATLio");
+}
+
 extern int WriteLong(void* dest, long src) {
     return UTATL_CLINK_OK == UTATL_ClinkWriteVar(dest, (void*)&src, UTATL_VarTypeInte1);
 }

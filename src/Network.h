@@ -8,7 +8,7 @@
 #include "DataLoader.h"
 
 // results folder
-#define RESULTS_LOC "/Users/Nuullll/Projects/SNN-T5830/results/"
+#define RESULTS_LOC "/home/fsdiag/SNN/results/"
 
 // pulse config (voltage unit: mV, pulse width unit: ns)
 #define V_SET_BL 2000

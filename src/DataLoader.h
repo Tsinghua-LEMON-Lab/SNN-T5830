@@ -6,8 +6,8 @@
 #define SNN_T5830_DATALOADER_H
 
 // MNIST data file location
-#define TRAIN_DATA_LOC "/Users/Nuullll/Projects/SNN-T5830/mnist/121-size-012-cat/train.txt"
-#define TEST_DATA_LOC "/Users/Nuullll/Projects/SNN-T5830/mnist/121-size-012-cat/test.txt"
+#define TRAIN_DATA_LOC "/home/fsdiag/SNN/mnist/121-size-012-cat/train.txt"
+#define TEST_DATA_LOC "/home/fsdiag/SNN/mnist/121-size-012-cat/test.txt"
 
 // MNIST subset size (category {0,1,2} only)
 #define TRAIN_SIZE 18623
@@ -21,9 +21,10 @@ extern double TrainImages[TRAIN_SIZE][INPUT_SIZE];
 extern int TrainLabels[TRAIN_SIZE];
 extern double TestImages[TEST_SIZE][INPUT_SIZE];
 extern int TestLabels[TEST_SIZE];
-
+extern int tester;
 
 extern void LoadMNIST();
+extern void ShowMNIST();
 
 
 #endif //SNN_T5830_DATALOADER_H
